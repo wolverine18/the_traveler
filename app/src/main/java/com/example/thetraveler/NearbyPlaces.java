@@ -28,6 +28,7 @@ public class NearbyPlaces extends AppCompatActivity {
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         String typeString = bundle.getString("TYPE");
+        typeString = typeString.replace("_", " ");
         typeString = typeString.substring(0, 1).toUpperCase() + typeString.substring(1) + "s";
         type.setText(typeString);
         String resString = bundle.getString("RESULTS");

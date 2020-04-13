@@ -59,13 +59,43 @@
         app:layout_constraintTop_toBottomOf="@+id/range" />
 
     <Button
-        android:id="@+id/btnHotel"
+        android:id="@+id/btnLodging"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Hotels"
+        android:text="Lodging"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnRestaurants" />
+
+    <Button
+        android:id="@+id/btnMuseums"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Museums"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnLodging" />
+
+    <Button
+        android:id="@+id/btnAmusementParks"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Amusement Parks"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnMuseums" />
+
+    <Button
+        android:id="@+id/btnBowlingAlleys"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Bowling Alleys"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnAmusementParks" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

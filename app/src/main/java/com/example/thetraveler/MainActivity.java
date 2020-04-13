@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
     FusedLocationProviderClient mFusedLocationClient;
     String lat, lng;
     TextView radius;
-    Button btnRestaurants;
+    Button btnRestaurants, btnLodging, btnMuseums, btnAmusementParks, btnBowlingAlleys;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,11 +50,22 @@ public class MainActivity extends AppCompatActivity {
 
         radius = findViewById(R.id.range);
         btnRestaurants = findViewById(R.id.btnRestaurants);
+        btnLodging = findViewById(R.id.btnLodging);
+        btnMuseums = findViewById(R.id.btnMuseums);
+        btnAmusementParks = findViewById(R.id.btnAmusementParks);
+        btnBowlingAlleys = findViewById(R.id.btnBowlingAlleys);
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
         getLastLocation();
 
+        setBtnClickListeners();
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+    }
+
+    private void setBtnClickListeners() {
         btnRestaurants.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -62,8 +73,33 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        btnLodging.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startGetNearbyPlaces("lodging");
+            }
+        });
+
+        btnMuseums.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startGetNearbyPlaces("museum");
+            }
+        });
+
+        btnAmusementParks.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startGetNearbyPlaces("amusement_park");
+            }
+        });
+
+        btnBowlingAlleys.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startGetNearbyPlaces("bowling_alley");
+            }
+        });
     }
 
     @Override
