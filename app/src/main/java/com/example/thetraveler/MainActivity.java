@@ -36,16 +36,15 @@ public class MainActivity extends AppCompatActivity {
 
     int PERMISSION_ID = 1;
     FusedLocationProviderClient mFusedLocationClient;
-    TextView tvLat, tvLong;
     String lat, lng;
+    TextView range;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        tvLat = findViewById(R.id.tvLat);
-        tvLong = findViewById(R.id.tvLong);
+        range = findViewById(R.id.range);
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
@@ -53,15 +52,6 @@ public class MainActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
     }
 
     @Override
@@ -130,8 +120,6 @@ public class MainActivity extends AppCompatActivity {
                                 } else {
                                     lat = String.valueOf(location.getLatitude());
                                     lng = String.valueOf(location.getLongitude());
-                                    tvLat.setText(location.getLatitude()+"");
-                                    tvLong.setText(location.getLongitude()+"");
                                 }
                             }
                         }
@@ -168,8 +156,6 @@ public class MainActivity extends AppCompatActivity {
             Location mLastLocation = locationResult.getLastLocation();
             lat = String.valueOf(mLastLocation.getLatitude());
             lng = String.valueOf(mLastLocation.getLongitude());
-            tvLat.setText(mLastLocation.getLatitude()+"");
-            tvLong.setText(mLastLocation.getLongitude()+"");
         }
     };
 
@@ -179,5 +165,11 @@ public class MainActivity extends AppCompatActivity {
         if (checkPermissions()) {
             getLastLocation();
         }
+    }
+
+    private int getRangeMeters() {
+        double miles = Double.parseDouble(range.getText().toString());
+        int meters = (int) (miles/.00062137);
+        return meters;
     }
 }
