@@ -102,6 +102,7 @@ public class NearbyPlacesService extends IntentService {
                 Intent intent = new Intent(BROADCAST_NEARBY_PLACES);
 
                 intent.putExtra("KEY", key);
+                intent.putExtra("TYPE", type);
                 intent.putExtra("RESULTS", results.toString());
                 LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
             }

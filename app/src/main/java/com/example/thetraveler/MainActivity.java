@@ -28,16 +28,12 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import android.os.Looper;
 import android.provider.Settings;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import org.json.JSONArray;
-import org.json.JSONException;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -211,14 +207,14 @@ public class MainActivity extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
             Bundle bundle = intent.getExtras();
             String key = bundle.getString("KEY");
-            String resString =  bundle.getString("RESULTS");
+            String type = bundle.getString("TYPE");
+            String results =  bundle.getString("RESULTS");
 
             if (key.equals("p1")) {
-                try {
-                    JSONArray results = new JSONArray(resString);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                Intent i = new Intent(context, NearbyPlaces.class);
+                i.putExtra("RESULTS", results);
+                i.putExtra("TYPE", type);
+                startActivity(i);
             }
         }
     };
