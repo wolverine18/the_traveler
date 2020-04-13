@@ -10,12 +10,14 @@ import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 public class NearbyPlaces extends AppCompatActivity {
 
     RecyclerView recyclerView;
     NearbyPlacesAdapter adapter;
     TextView type;
+    JSONArray results = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +34,6 @@ public class NearbyPlaces extends AppCompatActivity {
         typeString = typeString.substring(0, 1).toUpperCase() + typeString.substring(1) + "s";
         type.setText(typeString);
         String resString = bundle.getString("RESULTS");
-        JSONArray results = null;
 
         try {
             results = new JSONArray(resString);
@@ -52,7 +53,17 @@ public class NearbyPlaces extends AppCompatActivity {
         adapter.setOnItemClickListener(new NearbyPlacesAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-
+                if (results != null) {
+                    try {
+                        JSONObject data = (JSONObject) results.get(position);
+                        String placeID = data.getString("place_id");
+//                        Intent intent = new Intent(this, );
+//                        intent.putExtra("PLACE_ID", placeID);
+//                        startActivity(intent);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         });
     }
