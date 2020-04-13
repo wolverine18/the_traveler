@@ -2,13 +2,16 @@ package com.example.thetraveler;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 
+import com.example.thetraveler.webservice.NearbyPlacesService;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -16,39 +19,52 @@ import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import android.os.Looper;
 import android.provider.Settings;
-import android.view.View;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.json.JSONArray;
+import org.json.JSONException;
 
 public class MainActivity extends AppCompatActivity {
 
     int PERMISSION_ID = 1;
     FusedLocationProviderClient mFusedLocationClient;
     String lat, lng;
-    TextView range;
+    TextView radius;
+    Button btnResturants;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        range = findViewById(R.id.range);
+        radius = findViewById(R.id.range);
+        btnResturants = findViewById(R.id.btnResturants);
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
         getLastLocation();
+
+        btnResturants.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startGetNearbyPlaces("resturant");
+            }
+        });
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -165,11 +181,46 @@ public class MainActivity extends AppCompatActivity {
         if (checkPermissions()) {
             getLastLocation();
         }
+        IntentFilter nearbyPlacesFilter = new IntentFilter(NearbyPlacesService.BROADCAST_NEARBY_PLACES);
+        LocalBroadcastManager.getInstance(this).registerReceiver(nearbyPlacesReceiver, nearbyPlacesFilter);
     }
 
-    private int getRangeMeters() {
-        double miles = Double.parseDouble(range.getText().toString());
-        int meters = (int) (miles/.00062137);
-        return meters;
+    @Override
+    public void onPause() {
+        super.onPause();
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(nearbyPlacesReceiver);
     }
+
+    private String getRadiusMeters() {
+        double miles = Double.parseDouble(radius.getText().toString());
+        int meters = (int) (miles/.00062137);
+        return String.valueOf(meters);
+    }
+
+    private void startGetNearbyPlaces(String type) {
+        if (lat != null && lat.length() > 0 && lng != null && lng.length() > 0) {
+            String radius = getRadiusMeters();
+            if (radius.length() > 0 && !radius.equals("0")) {
+                NearbyPlacesService.startGetNearbyPlaces(this, "p1", radius, type, lat, lng);
+            }
+        }
+    }
+
+    private BroadcastReceiver nearbyPlacesReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Bundle bundle = intent.getExtras();
+            String key = bundle.getString("KEY");
+            String resString =  bundle.getString("RESULTS");
+
+            if (key.equals("p1")) {
+                try {
+                    JSONArray results = new JSONArray(resString);
+                    Log.d("Text", "");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    };
 }
