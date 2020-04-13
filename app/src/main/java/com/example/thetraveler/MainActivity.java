@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
     FusedLocationProviderClient mFusedLocationClient;
     String lat, lng;
     TextView radius;
-    Button btnResturants;
+    Button btnRestaurants;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,16 +53,16 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         radius = findViewById(R.id.range);
-        btnResturants = findViewById(R.id.btnResturants);
+        btnRestaurants = findViewById(R.id.btnRestaurants);
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
         getLastLocation();
 
-        btnResturants.setOnClickListener(new View.OnClickListener() {
+        btnRestaurants.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startGetNearbyPlaces("resturant");
+                startGetNearbyPlaces("restaurant");
             }
         });
 
@@ -216,7 +216,6 @@ public class MainActivity extends AppCompatActivity {
             if (key.equals("p1")) {
                 try {
                     JSONArray results = new JSONArray(resString);
-                    Log.d("Text", "");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
