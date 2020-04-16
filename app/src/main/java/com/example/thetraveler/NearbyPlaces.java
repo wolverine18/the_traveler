@@ -99,7 +99,6 @@ public class NearbyPlaces extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
             Bundle bundle = intent.getExtras();
             String key = bundle.getString("KEY");
-            String placeId = bundle.getString("PLACE_ID");
             String address =  bundle.getString("ADDRESS");
             String name =  bundle.getString("NAME");
             String pNumber =  bundle.getString("PHONE_NUMBER");
@@ -110,7 +109,6 @@ public class NearbyPlaces extends AppCompatActivity {
             if (key.equals("p2")) {
                 Intent i = new Intent(context, Details.class);
                 i.putExtra("ADDRESS", address);
-                i.putExtra("PLACE_ID", placeId);
                 i.putExtra("NAME", name);
                 i.putExtra("PHONE_NUMBER", pNumber);
                 i.putExtra("ICON", image);

@@ -22,7 +22,6 @@ public class Details extends AppCompatActivity {
     TextView title, address, pNumber, website;
     TextView monday, tuesday, wednesday, thursday, friday, saturday, sunday;
     ImageView image;
-    String placeId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +43,6 @@ public class Details extends AppCompatActivity {
 
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
-        placeId = bundle.getString("PLACE_ID");
         String placeAddress = bundle.getString("ADDRESS");
         String name = bundle.getString("NAME");
         String phoneNumber = bundle.getString("PHONE_NUMBER");

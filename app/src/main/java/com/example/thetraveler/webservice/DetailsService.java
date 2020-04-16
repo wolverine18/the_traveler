@@ -132,11 +132,8 @@ public class DetailsService extends IntentService {
                     website = results.getString("website");
                 }
 
-
                 Intent intent = new Intent(BROADCAST_PLACE_DETAILS);
-
                 intent.putExtra("KEY", key);
-                intent.putExtra("PLACE_ID", placeID);
                 intent.putExtra("ADDRESS", address);
                 intent.putExtra("NAME", name);
                 intent.putExtra("PHONE_NUMBER", pNumber);
