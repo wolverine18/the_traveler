@@ -80,9 +80,6 @@ public class NearbyPlaces extends AppCompatActivity {
                         JSONObject data = (JSONObject) results.get(position);
                         String placeID = data.getString("place_id");
                         startGetPlaceDetails(placeID);
-//                        Intent intent = new Intent(NearbyPlaces.this, Details.class);
-//                        intent.putExtra("PLACE_ID", placeID);
-//                        startActivity(intent);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
