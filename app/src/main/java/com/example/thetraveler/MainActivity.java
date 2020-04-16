@@ -206,10 +206,15 @@ public class MainActivity extends AppCompatActivity {
 
     private void startGetNearbyPlaces(String type) {
         if (lat != null && lat.length() > 0 && lng != null && lng.length() > 0) {
-            String radius = getRadiusMeters();
-            if (radius.length() > 0 && !radius.equals("0")) {
-                NearbyPlacesService.startGetNearbyPlaces(this, "p1", radius, type, lat, lng);
+            String meterRadius = getRadiusMeters();
+            int milesRadius = Integer.parseInt(radius.getText().toString());
+            if (meterRadius.length() > 0 && milesRadius > 0 && milesRadius <= 30) {
+                NearbyPlacesService.startGetNearbyPlaces(this, "p1", meterRadius, type, lat, lng);
+            } else {
+                Toast.makeText(this, "Invalid Range", Toast.LENGTH_SHORT).show();
             }
+        } else {
+            Toast.makeText(this, "Could not retieve location.", Toast.LENGTH_SHORT).show();
         }
     }
 

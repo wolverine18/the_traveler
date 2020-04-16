@@ -48,26 +48,41 @@ public class NearbyPlacesAdapter extends RecyclerView.Adapter<NearbyPlacesAdapte
         try {
             JSONObject place = (JSONObject) this.data.get(position);
 
-            String name = place.getString("name");
-            String rating = place.getString("rating");
-            JSONObject opening_hours = place.getJSONObject("opening_hours");
-            Boolean open = opening_hours.getBoolean("open_now");
-            String iconURL = place.getString("icon");
-
-            if (name != null && rating != null && open != null) {
+            if (place.has("name")) {
+                String name = place.getString("name");
                 holder.textName.setText(name);
-                holder.textRating.setText("Rating: " + rating);
+            }
+            if (place.has("icon")) {
+                String iconURL = place.getString("icon");
                 Picasso.get().load(iconURL).into(holder.imageIcon);
-                if (open) {
-                    holder.textOpen.setText("Open");
-                    holder.textOpen.setTextColor(Color.GREEN);
+            }
+            if (place.has("rating")) {
+                holder.textRating.setVisibility(View.VISIBLE);
+                String rating = place.getString("rating");
+                holder.textRating.setText("Rating: " + rating);
+            } else {
+                holder.textRating.setVisibility(View.INVISIBLE);
+            }
+            if (place.has("opening_hours")) {
+                JSONObject opening_hours = place.getJSONObject("opening_hours");
+                if (opening_hours.has("open_now")) {
+                    Boolean open = opening_hours.getBoolean("open_now");
+                    holder.textOpen.setVisibility(View.VISIBLE);
+                    if (open) {
+                        holder.textOpen.setText("Open");
+                        holder.textOpen.setTextColor(Color.GREEN);
+                    } else {
+                        holder.textOpen.setText("Closed");
+                        holder.textOpen.setTextColor(Color.RED);
+                    }
                 } else {
-                    holder.textOpen.setText("Closed");
-                    holder.textOpen.setTextColor(Color.RED);
+                    holder.textOpen.setVisibility(View.INVISIBLE);
                 }
+            } else {
+                holder.textOpen.setVisibility(View.INVISIBLE);
             }
         } catch (JSONException e) {
-
+            e.printStackTrace();
         }
     }
 

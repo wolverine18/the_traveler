@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.thetraveler.webservice.DetailsService;
 
@@ -47,11 +48,13 @@ public class NearbyPlaces extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        if (results != null) {
+        if (results != null && results.length() > 0) {
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
             adapter = new NearbyPlacesAdapter(this, results);
             recyclerView.setAdapter(adapter);
             setupCardViewClickListeners();
+        } else {
+            Toast.makeText(this, "No results found for " + typeString + ".", Toast.LENGTH_LONG).show();
         }
     }
 
